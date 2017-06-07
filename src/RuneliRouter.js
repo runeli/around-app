@@ -63,17 +63,13 @@ class RuneliRouter extends React.Component {
         this.routes.set('/postMessage', PostMessageView)
     }
 
-    getComponent() {
+    render() {
         let maybeComponent = this.routes.get(this.state.activeView);
         if(!maybeComponent) {
             return React.createElement(this.routes.get(DEFAULT_ROUTE), {routeNotFound: this.state.activeView});
         } else {
             return React.createElement(this.routes.get(this.state.activeView));
-        }
-    }
-
-    render() {
-        return this.getComponent();
+        }    
     }
 
 }
