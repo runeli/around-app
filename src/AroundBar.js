@@ -2,6 +2,7 @@ import AppBar from 'material-ui/AppBar';
 import React from 'react'
 import RuneliRouter from './RuneliRouter';
 import NavigationBackSvgIcon from 'material-ui/svg-icons/navigation/arrow-back';
+import ActionHomeSvgIcon from 'material-ui/svg-icons/action/home';
 import IconButton from 'material-ui/IconButton';
 
 const style = {
@@ -26,7 +27,7 @@ class AroundBar extends React.Component {
     }
 
     _getCurrentIconOrEmptyIfNoRoutesArePresent() {
-        return RuneliRouter.hasRoutesToGoBackTo() ? <IconButton><NavigationBackSvgIcon /></IconButton> : <span></span>
+        return RuneliRouter.hasRoutesToGoBackTo() ? <IconButton><NavigationBackSvgIcon /></IconButton> : <IconButton><ActionHomeSvgIcon /></IconButton>
     }
 
     render() {

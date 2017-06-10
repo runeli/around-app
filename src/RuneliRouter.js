@@ -5,12 +5,13 @@ import PostMessageView from './PostMessageView';
 
 const DEFAULT_ROUTE = 'DEFAULT_ROUTE';
 const INITIAL_ROUTE = '/index';
+
 var RouterElement = null;
 
 class RouteStack {
 
-    constructor() {
-        this._stack = [INITIAL_ROUTE];
+    constructor(initialRoute) {
+        this._stack = [initialRoute];
     }
 
     push(value) {
@@ -28,7 +29,6 @@ class RouteStack {
     peek() {
         return this._stack[this._stack.length - 1];
     }
-
 }
 
 class RuneliRouter extends React.Component {
@@ -36,11 +36,11 @@ class RuneliRouter extends React.Component {
     constructor(props, context) {
         super();
         this.state = {
-            activeView: this._getRouteFromHashOrReturnFalseIfNoRoutePresent() || INITIAL_ROUTE
+            activeView: this._getRouteFromHashOrReturnFalseIfNoRoutePresent()
         };
         this.routes = new Map();
         this.initializeRoutes();
-        this.routesStack = new RouteStack();
+        this.routesStack = new RouteStack(INITIAL_ROUTE);
         RouterElement = this;
         this.routeChangeHandlers = [];
         this._initializeWindowHashChangeListener()        
@@ -49,6 +49,7 @@ class RuneliRouter extends React.Component {
     setRoute(route) {
         this.routesStack.push(route);   
         this.setState({activeView: route});
+        this._setLocationHash(route);
         this._executeRouteChangeHandlersWhenRouteHasChanged();
     }
 
@@ -57,6 +58,8 @@ class RuneliRouter extends React.Component {
         if (this.routesStack.length() === 0) {
             this.routesStack.push(INITIAL_ROUTE);
         }
+        console.log(this.routesStack)
+        this._setLocationHash(this.routesStack.peek());
         this.setState({activeView: this.routesStack.peek()});
         this._executeRouteChangeHandlersWhenRouteHasChanged();
     }
@@ -88,7 +91,7 @@ class RuneliRouter extends React.Component {
         const trimmedHashContainingOnlyTheFirstRoute = hash.substr(1);
         const firstRoute = trimmedHashContainingOnlyTheFirstRoute.split("/").filter(route => route.length > 0)[0];
         if(!firstRoute) {
-            return false;
+            return INITIAL_ROUTE;
         } else {
             return '/' + firstRoute;
         }
@@ -103,6 +106,10 @@ class RuneliRouter extends React.Component {
         if(maybeNewRoute && maybeNewRoute !== this.state.activeView) {
             this.setRoute(maybeNewRoute);
         }
+    }
+
+    _setLocationHash(newHash) {
+        window.location.hash = newHash;
     }
 
     render() {

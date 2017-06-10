@@ -43,6 +43,11 @@ class ApplicationStateStore {
                     }
                 };
                 this.mergeState(newState);
+            },
+            appendSingleAround: aroundToAppend => {
+                const newArounds = this._state.aroundCache.arounds.slice(0);
+                newArounds.push(aroundToAppend);
+                this.helpers().addAroundsToCache(newArounds);
             }
         }
     }

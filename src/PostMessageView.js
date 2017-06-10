@@ -1,11 +1,21 @@
 import React, { Component } from 'react';
 import PostMessageInput from './PostMessageInput';
 import AroundsList from './AroundsList';
+import LocationService from './LocationService';
 
 class PostMessageView extends Component {
 
-    handleAroundAdd() {
-        this.aroundList.addAroundMessage({messageBody: 'this was added'})
+    async handleAroundAdd(messageBody) {
+        const coords = await LocationService.getCurrentLocation();
+        this.aroundList.addAroundMessage({
+            messageBody, 
+            location: {
+                lat: coords.coords.latitude, 
+                lng: coords.coords.longitude
+            }, 
+            date: new Date(), 
+            id: (new Date()).getTime().toString()
+        });
     }
 
     render() {

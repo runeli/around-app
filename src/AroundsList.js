@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import SinlgeAroundMessage from './SingleAroundMessage';
 import update from 'react-addons-update';
 import HttpClient from './HttpClient';
+import ApplicationStateStore from './ApplicationStateStore';
 
 class AroundsList extends Component {
 
@@ -20,6 +21,7 @@ class AroundsList extends Component {
         };        
         this.setState(update(this.state, updateTo));
         this._scrollToBottomOfThisList();
+        ApplicationStateStore.helpers().appendSingleAround(messageObject);
     }
 
     _addInitialArounds(messageObjects) {

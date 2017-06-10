@@ -46,7 +46,7 @@ const randomBetween = (start, end) => {
 }
 
 const pickRandomWord = () => {
-    return randomEnglishWords[randomBetween(1, randomEnglishWords.length)];
+    return randomEnglishWords[randomBetween(1, randomEnglishWords.length - 1)];
 }
 
 const randomId = () => {
