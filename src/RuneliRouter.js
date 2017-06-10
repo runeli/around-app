@@ -43,7 +43,7 @@ class RuneliRouter extends React.Component {
         this.routesStack = new RouteStack();
         RouterElement = this;
         this.routeChangeHandlers = [];
-        
+        this._initializeWindowHashChangeListener()        
     }
 
     setRoute(route) {
@@ -91,6 +91,17 @@ class RuneliRouter extends React.Component {
             return false;
         } else {
             return '/' + firstRoute;
+        }
+    }
+
+    _initializeWindowHashChangeListener() {
+        window.onhashchange = this._handleHashChangeEvent.bind(this);
+    }
+
+    _handleHashChangeEvent() {
+        const maybeNewRoute = this._getRouteFromHashOrReturnFalseIfNoRoutePresent();
+        if(maybeNewRoute && maybeNewRoute !== this.state.activeView) {
+            this.setRoute(maybeNewRoute);
         }
     }
 
