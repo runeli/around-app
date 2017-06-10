@@ -38,11 +38,13 @@ class RuneliRouter extends React.Component {
         this.initializeRoutes();
         this.routesStack = new RouteStack();
         RouterElement = this;
+        this.routeChangeHandlers = [];
     }
 
     setRoute(route) {
         this.routesStack.push(route);   
         this.setState({activeView: route});
+        this._executeRouteChangeHandlersWhenRouteHasChanged();
     }
 
     back() {
@@ -54,13 +56,29 @@ class RuneliRouter extends React.Component {
             this.routesStack.push(INITIAL_ROUTE);
         }
         this.setState({activeView: newRoute});
+        this._executeRouteChangeHandlersWhenRouteHasChanged();
     }
 
     initializeRoutes() {
         this.routes.set(DEFAULT_ROUTE, DefaultRoute);
         this.routes.set(INITIAL_ROUTE, LocationActivatorPane);
-        this.routes.set("/map", LeafletMap);
+        this.routes.set('/map', LeafletMap);
         this.routes.set('/postMessage', PostMessageView)
+    }
+
+    addRouteChangeListener(handlerFunction) {
+        this.routeChangeHandlers.push(handlerFunction);
+        return this.routeChangeHandlers.length - 1;
+    }
+
+    removeRouteChangeListerner(indexOfHandler) {
+        this.routeChangeHandlers.splice(indexOfHandler, 1);
+    }
+
+    _executeRouteChangeHandlersWhenRouteHasChanged() {
+        this.routeChangeHandlers.forEach(handler => {
+            handler(this.state.activeView);
+        });
     }
 
     render() {
@@ -95,5 +113,20 @@ export default {
         if(_SingletonRouter) {
             RouterElement.back();
         }
+    },
+    currentRoute: function () {
+        return this.singletonRouter().state.activeView;
+    },
+    hasRoutesToGoBackTo: function() {
+        if(typeof this.singletonRouter().routesStack !== 'undefined') {
+            console.log('routes is DEFINED')
+            return this.singletonRouter().routesStack._stack.length > 1;
+        } else {
+            console.log('routes is NOT')
+            return false;
+        }
+    },
+    onRouteChange: function (handlerFunction) {
+        return RouterElement.addRouteChangeListener(handlerFunction);
     }
 };
