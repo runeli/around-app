@@ -26,8 +26,7 @@ class AroundBar extends React.Component {
     }
 
     _getCurrentIconOrEmptyIfNoRoutesArePresent() {
-        console.log('rendering!!')
-        return RuneliRouter.hasRoutesToGoBackTo() ? <IconButton><NavigationBackSvgIcon /></IconButton> : <IconButton />
+        return RuneliRouter.hasRoutesToGoBackTo() ? <IconButton><NavigationBackSvgIcon /></IconButton> : <span></span>
     }
 
     render() {

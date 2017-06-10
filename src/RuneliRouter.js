@@ -36,13 +36,14 @@ class RuneliRouter extends React.Component {
     constructor(props, context) {
         super();
         this.state = {
-            activeView: INITIAL_ROUTE
+            activeView: this._getRouteFromHashOrReturnFalseIfNoRoutePresent() || INITIAL_ROUTE
         };
         this.routes = new Map();
         this.initializeRoutes();
         this.routesStack = new RouteStack();
         RouterElement = this;
         this.routeChangeHandlers = [];
+        
     }
 
     setRoute(route) {
@@ -82,6 +83,17 @@ class RuneliRouter extends React.Component {
         });
     }
 
+    _getRouteFromHashOrReturnFalseIfNoRoutePresent() {
+        const hash = window.location.hash;
+        const trimmedHashContainingOnlyTheFirstRoute = hash.substr(1);
+        const firstRoute = trimmedHashContainingOnlyTheFirstRoute.split("/").filter(route => route.length > 0)[0];
+        if(!firstRoute) {
+            return false;
+        } else {
+            return '/' + firstRoute;
+        }
+    }
+
     render() {
         let maybeComponent = this.routes.get(this.state.activeView);
         if(!maybeComponent) {
@@ -107,24 +119,18 @@ export default {
         return _SingletonRouter;
     },
     setRoute: function(route) {
-        if(_SingletonRouter)
+        if(RouterElement)
             RouterElement.setRoute(route)
     },
     back: function() {
-        if(_SingletonRouter) {
+        if(RouterElement) {
             RouterElement.back();
         }
     },
-    currentRoute: function () {
-        return this.singletonRouter().state.activeView;
-    },
     hasRoutesToGoBackTo: function() {
-        console.log()
         if(RouterElement && RouterElement.routesStack._stack) {
-            console.log(RouterElement.routesStack._stack)
             return RouterElement.routesStack._stack.length > 1;
         } else {
-            console.log('routes is NOT')
             return false;
         }
     },
