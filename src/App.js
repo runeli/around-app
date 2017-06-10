@@ -11,7 +11,7 @@ class App extends React.Component {
         <MuiThemeProvider>
           <div style={{height:'inherit', overflow: 'hidden'}}>
             <AroundBar />
-            <div style={{paddingTop: 64, height: 'inherit'}}>
+            <div style={{height: 'inherit'}}>
               {RuneliRouter.singletonRouter()}
             </div>
           </div>

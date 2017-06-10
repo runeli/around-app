@@ -4,7 +4,7 @@ import LeafletMap from './LeafletMap';
 import PostMessageView from './PostMessageView';
 
 const DEFAULT_ROUTE = 'DEFAULT_ROUTE';
-const INITIAL_ROUTE = '/index';
+const INITIAL_ROUTE = '/postMessage';
 var RouterElement = null;
 
 class RouteStack {

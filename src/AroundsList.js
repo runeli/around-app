@@ -1,33 +1,52 @@
 import React, { Component } from 'react';
 import SinlgeAroundMessage from './SingleAroundMessage';
 import update from 'react-addons-update';
+import HttpClient from './HttpClient';
 
 class AroundsList extends Component {
 
     constructor() {
         super();
         this.state = {
-            msgs: [
-                {messageText: 'this is an around message :)'},
-                {messageText: 'this is an around message :)'},
-                {messageText: 'this is an around message :)'}
-            ]
+            msgs: []
         }
     }
 
     addAroundMessage(messageObject) {
-        this.setState(update(this.state, {
-            msgs: {$push:[messageObject]}
-        }));
+        let updateTo = {
+            msgs: {
+                $push: [messageObject]
+            }
+        };        
+        this.setState(update(this.state, updateTo));
+        this._scrollToBottomOfThisList();
+    }
+
+    _addInitialArounds(messageObjects) {
+        let updateTo = {
+            msgs: {
+                $push: messageObjects
+            }
+        };
+        this.setState(update(this.state, updateTo));
+    }
+
+    _scrollToBottomOfThisList() {
+        this.listWrapper.parentNode.scrollTop = this.listWrapper.scrollHeight;
+    }
+
+    async componentDidMount() {
+        let arounds = await HttpClient.getArounds();
+        this._addInitialArounds(arounds);
     }
 
     getMessages() {
-        return this.state.msgs.map(msgObject => <SinlgeAroundMessage messageText={msgObject.messageText}/>)
+        return this.state.msgs.map(msgObject => <SinlgeAroundMessage messageBody={msgObject.messageBody} key={msgObject.id}/>)
     }
 
     render() {
         return (
-            <div>
+            <div className="post-message-list-wrapper" ref={listWrapper => {this.listWrapper = listWrapper;}}>
                 {this.getMessages()}
             </div>
         );

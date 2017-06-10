@@ -5,13 +5,12 @@ import AroundsList from './AroundsList';
 class PostMessageView extends Component {
 
     handleAroundAdd() {
-        console.log('!!!!!!!')
-        this.aroundList.addAroundMessage({messageText: 'this was added'})
+        this.aroundList.addAroundMessage({messageBody: 'this was added'})
     }
 
     render() {
         return (
-            <div>
+            <div className="post-message-view-wrapper">
                 <AroundsList ref={(aroundList) => { this.aroundList = aroundList; }}/>
                 <PostMessageInput onAroundAdd={this.handleAroundAdd.bind(this)}/>
             </div>
