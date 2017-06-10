@@ -12,9 +12,13 @@ const style = {
 class AroundBar extends React.Component {
 
     componentDidMount() {
-        RuneliRouter.onRouteChange(routeValue => {
-            console.log(routeValue);
+        this._handlerIndex = RuneliRouter.onRouteChange(routeValue => {
+            this.forceUpdate();
         });
+    }
+
+    componentWillUnmount() {
+        RuneliRouter.offRouteChange(this._handlerIndex);
     }
 
     _handleBackButtonClick() {
@@ -22,6 +26,7 @@ class AroundBar extends React.Component {
     }
 
     _getCurrentIconOrEmptyIfNoRoutesArePresent() {
+        console.log('rendering!!')
         return RuneliRouter.hasRoutesToGoBackTo() ? <IconButton><NavigationBackSvgIcon /></IconButton> : <IconButton />
     }
 

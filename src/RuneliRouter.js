@@ -25,6 +25,10 @@ class RouteStack {
         return this._stack.length;
     }
 
+    peek() {
+        return this._stack[this._stack.length - 1];
+    }
+
 }
 
 class RuneliRouter extends React.Component {
@@ -48,14 +52,11 @@ class RuneliRouter extends React.Component {
     }
 
     back() {
-        let newRoute = this.routesStack.pop();        
-        if (newRoute === this.state.activeView && this.routesStack.length() > 0) {
-            newRoute = this.routesStack.pop();
-        }
+        this.routesStack.pop();        
         if (this.routesStack.length() === 0) {
             this.routesStack.push(INITIAL_ROUTE);
         }
-        this.setState({activeView: newRoute});
+        this.setState({activeView: this.routesStack.peek()});
         this._executeRouteChangeHandlersWhenRouteHasChanged();
     }
 
@@ -118,9 +119,10 @@ export default {
         return this.singletonRouter().state.activeView;
     },
     hasRoutesToGoBackTo: function() {
-        if(typeof this.singletonRouter().routesStack !== 'undefined') {
-            console.log('routes is DEFINED')
-            return this.singletonRouter().routesStack._stack.length > 1;
+        console.log()
+        if(RouterElement && RouterElement.routesStack._stack) {
+            console.log(RouterElement.routesStack._stack)
+            return RouterElement.routesStack._stack.length > 1;
         } else {
             console.log('routes is NOT')
             return false;
@@ -128,5 +130,8 @@ export default {
     },
     onRouteChange: function (handlerFunction) {
         return RouterElement.addRouteChangeListener(handlerFunction);
+    },
+    offRouteChange: function (handlerFuctionIndex) {
+        return RouterElement.removeRouteChangeListerner(handlerFuctionIndex);
     }
 };
