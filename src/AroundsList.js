@@ -12,25 +12,16 @@ class AroundsList extends Component {
             msgs: []
         }
     }
-
+    
     addAroundMessage(messageObject) {
-        let updateTo = {
-            msgs: {
-                $push: [messageObject]
-            }
-        };        
-        this.setState(update(this.state, updateTo));
-        this._scrollToBottomOfThisList();
-        ApplicationStateStore.helpers().appendSingleAround(messageObject);
+        this._scrollToBottomOfThisList();        
     }
 
     _addInitialArounds(messageObjects) {
         let updateTo = {
-            msgs: {
-                $push: messageObjects
-            }
+            msgs: messageObjects
         };
-        this.setState(update(this.state, updateTo));
+        this.setState(updateTo);
     }
 
     _scrollToBottomOfThisList() {
@@ -40,6 +31,17 @@ class AroundsList extends Component {
     async componentDidMount() {
         let arounds = await HttpClient.getArounds();
         this._addInitialArounds(arounds);
+        this.stateChangeListernerCallbackId = ApplicationStateStore.addStateChangeListener(state => {
+            let updateTo = {
+                msgs: state.aroundCache.arounds
+            };
+            this.setState(updateTo);
+            this._scrollToBottomOfThisList();
+        });
+    }
+
+    componentWillUnmount() {
+        ApplicationStateStore.removeStateChangeListerner(this.stateChangeListernerCallbackId);
     }
 
     getMessages() {

@@ -13,6 +13,7 @@ class ApplicationStateStore {
 
     constructor() {
         this._state = defaultState;
+        this.stateChangeHandlers = [];
     }
 
     getState() {
@@ -42,14 +43,31 @@ class ApplicationStateStore {
                         arounds: aroundsList
                     }
                 };
-                this.mergeState(newState);
+                this.setState(newState);
             },
             appendSingleAround: aroundToAppend => {
                 const newArounds = this._state.aroundCache.arounds.slice(0);
                 newArounds.push(aroundToAppend);
                 this.helpers().addAroundsToCache(newArounds);
+                this._executeStateChangeHandlersWhenStateHasChanged();
             }
         }
+    }
+
+    addStateChangeListener(handlerFunction) {
+        this.stateChangeHandlers.push(handlerFunction);
+        return this.stateChangeHandlers.length - 1;
+    }
+
+    removeStateChangeListerner(indexOfHandler) {
+        this.stateChangeHandlers.splice(indexOfHandler, 1);
+    }
+
+    _executeStateChangeHandlersWhenStateHasChanged() {
+        this.stateChangeHandlers.forEach(handler => {
+            console.log(this.getState())
+            handler(this.getState());
+        });
     }
 }
 

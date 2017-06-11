@@ -16,7 +16,7 @@ class LeafletMap extends React.Component {
     }
 
     componentDidMount() {
-        this._injectViewPortInformation();
+        //this._injectViewPortInformation();
         if (!this.hasMapRendered) {
             this._injectMap();
             this.hasMapRendered = true;
@@ -24,7 +24,7 @@ class LeafletMap extends React.Component {
     }
 
     componentWillUnmount() {
-        this._uninjectViewPortInformation();
+        //this._uninjectViewPortInformation();
     }
 
     _injectViewPortInformation() {
@@ -60,7 +60,7 @@ class LeafletMap extends React.Component {
             marker.addListener('click', () => {
                 this._closeInfoBox();
                 this.infoWindow = new google.maps.InfoWindow({content: around.messageBody});
-                this.infoWindow.open(map, marker);            
+                this.infoWindow.open(map, marker);
             })
         });                
     }
@@ -75,14 +75,6 @@ class LeafletMap extends React.Component {
 
     _uninjectViewPortInformation() {
         document.head.removeChild(document.getElementById(VIEWPORT_INFORMATION_ID));
-    }
-
-    _getMapWithMarkers() {
-        
-    }
-
-    _uninjectMap() {
-
     }
 
     render() {

@@ -1,9 +1,17 @@
 // let request = require('superagent');
 import generateAround from './AroundRandomGenerator'
-
 import ApplicationStateStore from './ApplicationStateStore';
+import io from 'socket.io-client';
+
+const CLIENT_TO_SERVER_MESSAGE = 'clientToServerMessage';
+const SERVER_TO_CLIENT_MESSAGE = 'aroundToClientMessage';
 
 class HttpClient {
+
+    constructor() {
+        this.io = io('https://192.168.0.12:8080/');
+        this._bindListenersForAroundsFromServer()
+    }
 
     getArounds(location) {
         if(ApplicationStateStore.helpers().hasArounds()) {
@@ -11,13 +19,26 @@ class HttpClient {
         }
         const helsinkiLocation = {lng: 24.9410248, lat:60.1733244};
         const arounds = [];
-        for(let i = 0; i < 5; i++) {
-            arounds.push(generateAround(helsinkiLocation, 1))
-        }
-        ApplicationStateStore.helpers().addAroundsToCache(arounds);
+        //for(let i = 0; i < 5; i++) {
+        //    arounds.push(generateAround(helsinkiLocation, 1))
+        //}
+        //ApplicationStateStore.helpers().addAroundsToCache(arounds);
         return new Promise((resolve, reject) => {
             setTimeout(() => {resolve(arounds)}, 1000);
         });
+    }
+
+    aroundToServerMessage(aroundMessage) {
+        this.io.emit(CLIENT_TO_SERVER_MESSAGE, aroundMessage);
+        ApplicationStateStore.helpers().appendSingleAround(aroundMessage);
+    }
+
+    _bindListenersForAroundsFromServer() {
+        this.io.on(SERVER_TO_CLIENT_MESSAGE, this.serverToAroundMessage);
+    }
+
+    serverToAroundMessage(aroundMessage) {
+        ApplicationStateStore.helpers().appendSingleAround(aroundMessage);
     }
 
 }

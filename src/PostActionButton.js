@@ -1,12 +1,12 @@
 import React from 'react';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
-import RuneliRouter from './RuneliRouter';
+import PropTypes from 'prop-types';
 
 class PostActionButton extends React.Component {
 
     _handleButtonClick() {
-        RuneliRouter.setRoute('/postMessage');
+        this.context.router.history.push('/postMessage');
     }
 
     render() {
@@ -24,6 +24,10 @@ class PostActionButton extends React.Component {
         );
     }
 }
+
+PostActionButton.contextTypes = {
+  router: PropTypes.object.isRequired
+};
 
 
 export default PostActionButton;

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 class SingleAroundMessage extends Component {
+    
     render() {
         return (
             <div className="around-message-container">
