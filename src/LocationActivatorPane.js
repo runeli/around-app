@@ -3,8 +3,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper'
 import LocationService from './LocationService';
 import RuneliRouter from './RuneliRouter';
-import * as injectTapEventPlugin from 'react-tap-event-plugin';
-injectTapEventPlugin();
 
 class LocationActivatorPane extends React.Component {
 

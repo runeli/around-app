@@ -58,7 +58,6 @@ class RuneliRouter extends React.Component {
         if (this.routesStack.length() === 0) {
             this.routesStack.push(INITIAL_ROUTE);
         }
-        console.log(this.routesStack)
         this._setLocationHash(this.routesStack.peek());
         this.setState({activeView: this.routesStack.peek()});
         this._executeRouteChangeHandlersWhenRouteHasChanged();

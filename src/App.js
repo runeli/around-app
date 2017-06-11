@@ -3,6 +3,9 @@ import './App.css';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RuneliRouter from './RuneliRouter';
 import AroundBar from './AroundBar';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
+
 class App extends React.Component {
   
   render() {

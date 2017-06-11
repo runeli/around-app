@@ -9,7 +9,6 @@ class HttpClient {
         if(ApplicationStateStore.helpers().hasArounds()) {
             return Promise.resolve(ApplicationStateStore.getState().aroundCache.arounds);
         }
-        console.log(ApplicationStateStore)
         const helsinkiLocation = {lng: 24.9410248, lat:60.1733244};
         const arounds = [];
         for(let i = 0; i < 5; i++) {

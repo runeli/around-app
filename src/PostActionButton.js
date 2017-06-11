@@ -11,7 +11,6 @@ class PostActionButton extends React.Component {
 
     render() {
         const style = {
-            marginRight: 20,
             position: 'absolute',
             bottom: 40,
             right: 40
