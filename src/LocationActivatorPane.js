@@ -6,6 +6,15 @@ import RuneliRouter from './RuneliRouter';
 
 class LocationActivatorPane extends React.Component {
 
+  constructor(props){
+    super(props);
+    debugger;
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    debugger;
+  }
+
   checkUserLocation() {
     LocationService
     .isLocationAllowed()

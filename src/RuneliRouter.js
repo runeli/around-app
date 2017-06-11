@@ -33,16 +33,17 @@ class RouteStack {
 
 class RuneliRouter extends React.Component {
 
-    constructor(props, context) {
+    constructor() {
         super();
         this.state = {
             activeView: this._getRouteFromHashOrReturnFalseIfNoRoutePresent()
         };
-        this.routes = new Map();
+        this.routes = {};
         this.initializeRoutes();
         this.routesStack = new RouteStack(INITIAL_ROUTE);
         RouterElement = this;
         this.routeChangeHandlers = [];
+        this.elementCache = {};
         this._initializeWindowHashChangeListener()        
     }
 
@@ -64,10 +65,10 @@ class RuneliRouter extends React.Component {
     }
 
     initializeRoutes() {
-        this.routes.set(DEFAULT_ROUTE, DefaultRoute);
-        this.routes.set(INITIAL_ROUTE, LocationActivatorPane);
-        this.routes.set('/map', LeafletMap);
-        this.routes.set('/postMessage', PostMessageView)
+        this.routes[DEFAULT_ROUTE] = <DefaultRoute key={DEFAULT_ROUTE}/>;
+        this.routes[INITIAL_ROUTE] = <LocationActivatorPane key={INITIAL_ROUTE}/>;
+        this.routes['/map'] = <LeafletMap key={"/map"}/>;
+        this.routes['/postMessage'] = <PostMessageView key={"/postMessage"}/>;
     }
 
     addRouteChangeListener(handlerFunction) {
@@ -111,13 +112,21 @@ class RuneliRouter extends React.Component {
         window.location.hash = newHash;
     }
 
+    _getElementCached(key) {
+        const maybeElement = this.elementCache[key];
+        if(maybeElement) {
+            console.log('loading from cache!');
+            
+            return maybeElement;
+        }
+        this.elementCache[key] = this.routes[key];
+        return this.elementCache[key];
+    }
+
     render() {
-        let maybeComponent = this.routes.get(this.state.activeView);
-        if(!maybeComponent) {
-            return React.createElement(this.routes.get(DEFAULT_ROUTE), {routeNotFound: this.state.activeView});
-        } else {
-            return React.createElement(this.routes.get(this.state.activeView));
-        }    
+        return (
+            this._getElementCached(this.state.activeView)
+        );
     }
 
 }
@@ -131,7 +140,7 @@ var _SingletonRouter = null;
 export default {
     singletonRouter: function() {
         if(!_SingletonRouter) {
-            _SingletonRouter = React.createElement(RuneliRouter)
+            _SingletonRouter = <RuneliRouter />
         } 
         return _SingletonRouter;
     },

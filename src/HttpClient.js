@@ -19,6 +19,7 @@ class HttpClient {
             setTimeout(() => {resolve(arounds)}, 1000);
         });
     }
+
 }
 
 export default new HttpClient();
