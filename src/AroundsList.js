@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import SinlgeAroundMessage from './SingleAroundMessage';
-import update from 'react-addons-update';
 import HttpClient from './HttpClient';
 import ApplicationStateStore from './ApplicationStateStore';
 
@@ -9,7 +8,7 @@ class AroundsList extends Component {
     constructor() {
         super();
         this.state = {
-            msgs: []
+            arounds: []
         }
     }
     
@@ -19,7 +18,7 @@ class AroundsList extends Component {
 
     _addInitialArounds(messageObjects) {
         let updateTo = {
-            msgs: messageObjects
+            arounds: messageObjects
         };
         this.setState(updateTo);
     }
@@ -29,11 +28,10 @@ class AroundsList extends Component {
     }
 
     async componentDidMount() {
-        let arounds = await HttpClient.getArounds();
-        this._addInitialArounds(arounds);
+        this._addInitialArounds(ApplicationStateStore.getClonedState().arounds);
         this.stateChangeListernerCallbackId = ApplicationStateStore.addStateChangeListener(state => {
             let updateTo = {
-                msgs: state.aroundCache.arounds
+                arounds: state.arounds
             };
             this.setState(updateTo);
             this._scrollToBottomOfThisList();
@@ -45,7 +43,7 @@ class AroundsList extends Component {
     }
 
     getMessages() {
-        return this.state.msgs.map(msgObject => <SinlgeAroundMessage messageBody={msgObject.messageBody} key={msgObject.id}/>)
+        return this.state.arounds.map(msgObject => <SinlgeAroundMessage messageBody={msgObject.messageBody} key={msgObject.id}/>)
     }
 
     render() {

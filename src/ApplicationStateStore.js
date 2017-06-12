@@ -1,12 +1,7 @@
 import _ from 'lodash';
 
 const defaultState = {
-    aroundCache: {
-        lng: 24.9410248,
-        lat: 60.1733244,
-        date: new Date(),
-        arounds: []
-    }
+    arounds: []    
 };
 
 class ApplicationStateStore {
@@ -20,38 +15,27 @@ class ApplicationStateStore {
         return this._state;
     }
 
+    getClonedState() {
+        return _.cloneDeep(this._state);
+    }
+
     setState(state) {
-        return this._state = state;
+        this._state = state;
+        this._executeStateChangeHandlersWhenStateHasChanged();
+    }
+    
+    addAroundList(aroundList) {
+        const clonedState = this.getClonedState();
+        this.setState({arounds: clonedState.arounds.concat(aroundList)});
     }
 
-    mergeState(state) {
-        let newState = _.cloneDeep(this._state);
-        _.assign(newState, state);
-        this._state = newState;
-        return this._state;
+    addSingleAround(singleAround) {
+        const aroundList = [singleAround];
+        this.addAroundList(aroundList);
     }
 
-    helpers() {
-        return {
-            hasArounds: () => {
-                return this._state.aroundCache.arounds.length > 0
-            },
-            addAroundsToCache: (aroundsList) => {
-                let newState = {
-                    aroundCache: {
-                        date: new Date(),
-                        arounds: aroundsList
-                    }
-                };
-                this.setState(newState);
-            },
-            appendSingleAround: aroundToAppend => {
-                const newArounds = this._state.aroundCache.arounds.slice(0);
-                newArounds.push(aroundToAppend);
-                this.helpers().addAroundsToCache(newArounds);
-                this._executeStateChangeHandlersWhenStateHasChanged();
-            }
-        }
+    hasArounds() {
+        this._state.arounds.length > 0;
     }
 
     addStateChangeListener(handlerFunction) {
@@ -65,8 +49,7 @@ class ApplicationStateStore {
 
     _executeStateChangeHandlersWhenStateHasChanged() {
         this.stateChangeHandlers.forEach(handler => {
-            console.log(this.getState())
-            handler(this.getState());
+            handler(this.getClonedState());
         });
     }
 }

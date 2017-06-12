@@ -12,7 +12,7 @@ export default {
         });
     },
 
-    async getCurrentLocation() {
+    getCurrentLocation() {
         return new Promise(function(resolve, reject) {
             navigator.geolocation.getCurrentPosition(resolve, reject, {maximumAge:60000, timeout:5000, enableHighAccuracy:true})
         });
