@@ -1,7 +1,8 @@
 import _ from 'lodash';
 
 const defaultState = {
-    arounds: []    
+    arounds: [],
+
 };
 
 class ApplicationStateStore {
@@ -20,7 +21,7 @@ class ApplicationStateStore {
     }
 
     setState(state) {
-        this._state = state;
+        _.assign(this._state, state);
         this._executeStateChangeHandlersWhenStateHasChanged();
     }
     
@@ -49,7 +50,7 @@ class ApplicationStateStore {
 
     _executeStateChangeHandlersWhenStateHasChanged() {
         this.stateChangeHandlers.forEach(handler => {
-            handler(this.getClonedState());
+            handler(this._state);
         });
     }
 }
