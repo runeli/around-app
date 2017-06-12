@@ -52,7 +52,6 @@ export class AroundServer {
             this.io.emit(INITIAL_AROUNDS, this.aroundMessageStore.get());            
             socket.on(CLIENT_TO_SERVER_MESSAGE, (message: AroundMessage) => {
                 this.aroundMessageStore.add(message);
-                console.log(message);
                 socket.broadcast.emit(SERVER_TO_CLIENT_MESSAGE, AroundMessage.fromJsonLike(message));
             });
             socket.on('disconnect', () => {
