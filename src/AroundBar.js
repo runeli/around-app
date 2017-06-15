@@ -5,24 +5,7 @@ import ActionHomeSvgIcon from 'material-ui/svg-icons/action/home';
 import IconButton from 'material-ui/IconButton';
 import PropTypes from 'prop-types';
 
-const style = {
-    position: 'absolute',
-    top: 0
-};
-
 class AroundBar extends React.Component {
-
-    componentDidMount() {
-        /*
-        this._handlerIndex = RuneliRouter.onRouteChange(routeValue => {
-            this.forceUpdate();
-        });
-        */
-    }
-
-    componentWillUnmount() {
-        //RuneliRouter.offRouteChange(this._handlerIndex);
-    }
 
     _handleBackButtonClick() {
         this.context.router.history.goBack()
@@ -30,20 +13,17 @@ class AroundBar extends React.Component {
 
     _getCurrentIconOrEmptyIfNoRoutesArePresent() {
         if(this.context.router.route.location.pathname === "/") {
-            return <IconButton><ActionHomeSvgIcon /></IconButton>
+            return <ActionHomeSvgIcon />
+        } else {
+            return <NavigationBackSvgIcon />
         }
-        return <IconButton><NavigationBackSvgIcon /></IconButton>
     }
 
     render() {
         return (
-            <div>
-               <AppBar 
-                title="Around" 
-                style={style} 
-                iconElementLeft={this._getCurrentIconOrEmptyIfNoRoutesArePresent()}
-                onLeftIconButtonTouchTap={this._handleBackButtonClick.bind(this)}
-               /> 
+            <div className="around-top-navigation-bar">
+                <AroundBarActionButton>{this._getCurrentIconOrEmptyIfNoRoutesArePresent()}</AroundBarActionButton>
+                <AroundBarTitle>Around</AroundBarTitle>
             </div>
         );
     }
@@ -52,5 +32,17 @@ class AroundBar extends React.Component {
 AroundBar.contextTypes = {
   router: PropTypes.object.isRequired
 };
+
+class AroundBarActionButton extends React.Component {
+    render() {
+        return <div className="around-top-navigation-bar-button">{this.props.children}</div>
+    }
+}
+
+class AroundBarTitle extends React.Component {
+    render() {
+        return <h1 className="around-top-navigation-bar-title">{this.props.children}</h1>
+    }
+}
 
 export default AroundBar;

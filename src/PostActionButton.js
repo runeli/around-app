@@ -16,10 +16,8 @@ class PostActionButton extends React.Component {
             right: 40
         };
         return (
-            <div>
-                <FloatingActionButton style={style} onClick={this._handleButtonClick.bind(this)}>
-                    <ContentAdd />
-                </FloatingActionButton>
+            <div className="round-floating-action-button" onClick={this._handleButtonClick.bind(this)}>
+                <ContentAdd />
             </div>
         );
     }

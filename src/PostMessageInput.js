@@ -4,9 +4,22 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 class PostMessageInput extends Component {
 
+    componentDidMount() {
+        this.postMessageInput.input.addEventListener('keyup', this._handleEnterPress.bind(this));
+    }
+
+    componentWillUnmount() {
+        this.postMessageInput.input.removeEventListener('keyup', this._handleEnterPress.bind(this));
+    }
+
+    _handleEnterPress(event) {
+        if(event.keyCode === 13)
+            this._handleAroundAdd();
+    }
+
     _handleAroundAdd() {
         this.props.onAroundAdd(this.postMessageInput.input.value);
-        this.postMessageInput.input.value = '';       
+        this.postMessageInput.input.value = '';
     }
 
     render() {
