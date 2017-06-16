@@ -1,5 +1,5 @@
 // let request = require('superagent');
-import generateAround from './AroundRandomGenerator'
+//import generateAround from './AroundRandomGenerator'
 import ApplicationStateStore from './ApplicationStateStore';
 import io from 'socket.io-client';
 
@@ -18,7 +18,7 @@ class HttpClient {
         if(ApplicationStateStore.hasArounds()) {
             return Promise.resolve(ApplicationStateStore.getClonedState().arounds);
         }
-        const helsinkiLocation = {lng: 24.9410248, lat:60.1733244};
+        //const helsinkiLocation = {lng: 24.9410248, lat:60.1733244};
         const arounds = [];
         return new Promise((resolve, reject) => {            
             setTimeout(() => {resolve(arounds)}, 1000);

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Paper from 'material-ui/Paper'
 import LocationService from './LocationService';
 import PropTypes from 'prop-types';
 

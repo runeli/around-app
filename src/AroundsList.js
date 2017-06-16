@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import SinlgeAroundMessage from './SingleAroundMessage';
-import HttpClient from './HttpClient';
 import ApplicationStateStore from './ApplicationStateStore';
 
 class AroundsList extends Component {
@@ -27,7 +26,7 @@ class AroundsList extends Component {
         this.listWrapper.parentNode.scrollTop = this.listWrapper.scrollHeight;
     }
 
-    async componentDidMount() {
+    componentDidMount() {
         this._addInitialArounds(ApplicationStateStore.getClonedState().arounds);
         this.stateChangeListernerCallbackId = ApplicationStateStore.addStateChangeListener(state => {
             let updateTo = {
