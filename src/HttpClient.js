@@ -16,12 +16,11 @@ class HttpClient {
 
     getArounds(location) {
         if(ApplicationStateStore.hasArounds()) {
-            console.log(ApplicationStateStore.getClonedState().arounds)
             return Promise.resolve(ApplicationStateStore.getClonedState().arounds);
         }
         const helsinkiLocation = {lng: 24.9410248, lat:60.1733244};
         const arounds = [];
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {            
             setTimeout(() => {resolve(arounds)}, 1000);
         });
     }

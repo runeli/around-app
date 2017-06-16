@@ -1,5 +1,4 @@
 import * as React from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper'
 import LocationService from './LocationService';
 import PropTypes from 'prop-types';
@@ -23,11 +22,11 @@ class LocationActivatorPane extends React.Component {
     return (
         <div className="full-height">
           <div className="aligner full-height">
-            <Paper zDepth={5} className="intro-card">
+            <div zDepth={5} className="intro-card">
               <h3 className="display-middle">Get started</h3>
               <p>You will be prompted to share your location</p>            
               <button className="around-main-button aligner-item display-middle" primary={true} onClick={this.checkUserLocation.bind(this)}>Get started</button>           
-            </Paper>
+            </div>
           </div>
         </div>
     );

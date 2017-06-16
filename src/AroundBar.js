@@ -1,8 +1,6 @@
-import AppBar from 'material-ui/AppBar';
 import React from 'react'
 import NavigationBackSvgIcon from 'material-ui/svg-icons/navigation/arrow-back';
 import ActionHomeSvgIcon from 'material-ui/svg-icons/action/home';
-import IconButton from 'material-ui/IconButton';
 import PropTypes from 'prop-types';
 
 class AroundBar extends React.Component {
