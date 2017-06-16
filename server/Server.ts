@@ -49,7 +49,7 @@ export class AroundServer {
 
         this.io.on('connect', (socket: SocketIO.Socket) => {
             console.log('Connected: %s', socket.id);
-            this.io.emit(INITIAL_AROUNDS, this.aroundMessageStore.get());            
+            socket.emit(INITIAL_AROUNDS, this.aroundMessageStore.get());
             socket.on(CLIENT_TO_SERVER_MESSAGE, (message: AroundMessage) => {
                 this.aroundMessageStore.add(message);
                 socket.broadcast.emit(SERVER_TO_CLIENT_MESSAGE, AroundMessage.fromJsonLike(message));
