@@ -30,7 +30,7 @@ export class AroundServer {
 
     private initializeRoutes(): void {
         const router: express.Router = express.Router();
-        ApiRoute.create("/api", router);       
+        ApiRoute.create("/api", router);
         this.app.use(router);
     }
 

@@ -15,7 +15,7 @@ class AroundBar extends React.Component {
         if(this.context.router.route.location.pathname === "/") {
             return <ActionHomeSvgIcon />
         } else {
-            return <NavigationBackSvgIcon />
+            return <NavigationBackSvgIcon onClick={this._handleBackButtonClick.bind(this)}/>
         }
     }
 
@@ -35,7 +35,7 @@ AroundBar.contextTypes = {
 
 class AroundBarActionButton extends React.Component {
     render() {
-        return <div className="around-top-navigation-bar-button">{this.props.children}</div>
+        return <div className="around-top-navigation-bar-button" onClick={this.props.onClick}>{this.props.children}</div>
     }
 }
 
