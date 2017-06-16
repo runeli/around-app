@@ -11,20 +11,15 @@ class LeafletMap extends React.Component {
 
     constructor() {
         super();
-        this.hasMapRendered = false;
         this.infoWindows = [];
     }
 
     componentDidMount() {
-        //this._injectViewPortInformation();
-        if (!this.hasMapRendered) {
-            this._injectMap();
-            this.hasMapRendered = true;
-        }
+        this._injectMap();
     }
 
     componentWillUnmount() {
-        //this._uninjectViewPortInformation();
+        
     }
 
     _injectViewPortInformation() {
