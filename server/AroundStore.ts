@@ -7,7 +7,6 @@ export default class AroundStore {
     private messages: AroundMessage[] = [];
 
     add(message: AroundMessage) {
-        message.id = this.getUniqueMessageId();
         if(this.isMessageValid(message)) {
             this.messages.push(message);
         } else {
@@ -35,8 +34,8 @@ export default class AroundStore {
         }
     }
 
-    private getUniqueMessageId(): MessageId {
-        return {messageId: this.messages.length.toString()}
+    public static getUniqueMessageId(store: AroundStore): MessageId {
+        return {messageId: store.messages.length.toString()}
     }
 
     private isAroundMessageLocationValid(message: AroundMessage) : boolean {
@@ -55,11 +54,11 @@ export default class AroundStore {
 
     private isMessageBodyValid(message: AroundMessage): boolean {
         if(message.messageBody.length > 240) {
-            console.warn(message, "message body length exceeds 240 character limit");
+            console.warn(`${message}: message body length exceeds 240 character limit`);
             return false;
         }
         if(message.messageBody.length === 0) {
-            console.warn(message, "message body length is zero");
+            console.warn(`${message}: message body is zero`);
             return false;
         }
         return true;

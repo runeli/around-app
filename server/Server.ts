@@ -50,12 +50,13 @@ export class AroundServer {
         this.io.on('connect', (socket: SocketIO.Socket) => {
             console.log('Connected: %s', socket.id);
             socket.emit(INITIAL_AROUNDS, this.aroundMessageStore.get());
-            socket.on(CLIENT_TO_SERVER_MESSAGE, (message: AroundMessage) => {
+            socket.on(CLIENT_TO_SERVER_MESSAGE, (_message: AroundMessage) => {
+                let message = AroundMessage.fromJsonLike(_message, AroundMessageStore.getUniqueMessageId, this.aroundMessageStore);
                 if(!this.aroundMessageStore.isMessageValid(message)) {                    
                     return;
                 }
                 this.aroundMessageStore.add(message);
-                socket.broadcast.emit(SERVER_TO_CLIENT_MESSAGE, AroundMessage.fromJsonLike(message));
+                socket.broadcast.emit(SERVER_TO_CLIENT_MESSAGE, );
             });
             socket.on('disconnect', () => {
                 console.log('Client disconnected');
