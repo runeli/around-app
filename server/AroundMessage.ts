@@ -1,5 +1,5 @@
 
-interface AroundMessageLocation {
+export interface AroundMessageLocation {
     lat: number;
     lng: number;
 }
