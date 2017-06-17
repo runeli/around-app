@@ -4,6 +4,13 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 class PostMessageInput extends Component {
 
+    constructor() {
+        super();
+        this.state = {
+            errorText: null
+        };
+    }
+
     componentDidMount() {
         this.postMessageInput.input.addEventListener('keyup', this._handleEnterPress.bind(this));
     }
@@ -18,7 +25,11 @@ class PostMessageInput extends Component {
     }
 
     _handleAroundAdd() {
-        this.props.onAroundAdd(this.postMessageInput.input.value);
+        const valueToBeAdded = this.postMessageInput.input.value;
+        if(!this.isAroundValid(valueToBeAdded)) {
+            return;
+        }
+        this.props.onAroundAdd();
         this.postMessageInput.input.value = '';
     }
 
@@ -37,6 +48,19 @@ class PostMessageInput extends Component {
                 />
             </div>
         );
+    }
+
+    isAroundValid(aroundMessage) {
+        if(aroundMessage.length > 240 || aroundMessage.length === 0) {
+            this._handleAroundAddFailed();
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    _handleAroundAddFailed() {
+        
     }
 }
 
