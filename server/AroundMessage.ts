@@ -1,5 +1,3 @@
-import AroundStore from "./AroundStore";
-
 export interface AroundMessageLocation {
     lat: number;
     lng: number;
@@ -21,12 +19,12 @@ export class AroundMessage implements IAroundMessage {
     location: AroundMessageLocation;
     id: MessageId;
     date: Date;
-    public static fromJsonLike(obj: IAroundMessage, idGenerator: (aroundStore: AroundStore) => MessageId, aroundStore: AroundStore): AroundMessage {
+    public static fromJsonLike(obj: IAroundMessage, messageId: MessageId): AroundMessage {
         let aroundMessage = new AroundMessage();
         aroundMessage.date = new Date(obj.date);
         aroundMessage.location = obj.location;
-        aroundMessage.messageBody = obj.messageBody;
-        aroundMessage.id = idGenerator(aroundStore);
+        aroundMessage.messageBody = obj.messageBody ? obj.messageBody : "";
+        aroundMessage.id = messageId
         return aroundMessage;
     }
     

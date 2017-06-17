@@ -51,7 +51,8 @@ export class AroundServer {
             console.log('Connected: %s', socket.id);
             socket.emit(INITIAL_AROUNDS, this.aroundMessageStore.get());
             socket.on(CLIENT_TO_SERVER_MESSAGE, (_message: AroundMessage) => {
-                let message = AroundMessage.fromJsonLike(_message, AroundMessageStore.getUniqueMessageId, this.aroundMessageStore);
+                let message = AroundMessage.fromJsonLike(_message, this.aroundMessageStore.getUniqueMessageId());
+                console.log(message);
                 if(!this.aroundMessageStore.isMessageValid(message)) {                    
                     return;
                 }

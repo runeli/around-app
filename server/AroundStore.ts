@@ -34,8 +34,8 @@ export default class AroundStore {
         }
     }
 
-    public static getUniqueMessageId(store: AroundStore): MessageId {
-        return {messageId: store.messages.length.toString()}
+    public getUniqueMessageId(): MessageId {
+        return {messageId: this.messages.length.toString()}
     }
 
     private isAroundMessageLocationValid(message: AroundMessage) : boolean {
