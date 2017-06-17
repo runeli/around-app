@@ -1,4 +1,4 @@
-import {AroundMessage, AroundMessageLocation} from './AroundMessage';
+import {AroundMessage, AroundMessageLocation, MessageId} from './AroundMessage';
 
 
 
@@ -7,10 +7,11 @@ export default class AroundStore {
     private messages: AroundMessage[] = [];
 
     add(message: AroundMessage) {
+        message.id = this.getUniqueMessageId();
         if(this.isMessageValid(message)) {
             this.messages.push(message);
         } else {
-            console.warn(`Unable to add message ${message.id}. Validation errors exist`);
+            console.warn(`Unable to add message ${message.id.messageId}. Validation errors exist`);
         }
     }
 
@@ -32,6 +33,10 @@ export default class AroundStore {
         } else {
             return false;
         }
+    }
+
+    private getUniqueMessageId(): MessageId {
+        return {messageId: this.messages.length.toString()}
     }
 
     private isAroundMessageLocationValid(location: AroundMessageLocation) : boolean {
