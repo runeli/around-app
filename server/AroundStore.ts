@@ -1,11 +1,17 @@
 import {AroundMessage, AroundMessageLocation} from './AroundMessage';
 
+
+
 export default class AroundStore {
     
     private messages: AroundMessage[] = [];
 
     add(message: AroundMessage) {
-        this.messages.push(message);
+        if(this.isMessageValid(message)) {
+            this.messages.push(message);
+        } else {
+            console.warn(`Unable to add message ${message.id}. Validation errors exist`);
+        }
     }
 
     cleanAll(): void {

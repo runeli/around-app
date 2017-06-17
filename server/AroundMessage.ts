@@ -1,19 +1,23 @@
-
 export interface AroundMessageLocation {
     lat: number;
     lng: number;
 }
+
 export interface IAroundMessage {
     messageBody: string;
     location: AroundMessageLocation;
-    id: string;
+    id: MessageId;
     date: Date;
+}
+
+export interface MessageId {
+    messageId: string;
 }
 
 export class AroundMessage implements IAroundMessage {
     messageBody: string;
     location: AroundMessageLocation;
-    id: string;
+    id: MessageId;
     date: Date;
     public static fromJsonLike(obj: IAroundMessage): AroundMessage {
         let aroundMessage: AroundMessage = obj;
