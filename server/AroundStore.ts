@@ -28,7 +28,7 @@ export default class AroundStore {
     }
 
     isMessageValid(message: AroundMessage): boolean {
-        if(this.isMessageBodyValid(message.messageBody) && this.isAroundMessageLocationValid(message.location)){
+        if(this.isMessageBodyValid(message) && this.isAroundMessageLocationValid(message)){
             return true;
         } else {
             return false;
@@ -39,27 +39,27 @@ export default class AroundStore {
         return {messageId: this.messages.length.toString()}
     }
 
-    private isAroundMessageLocationValid(location: AroundMessageLocation) : boolean {
+    private isAroundMessageLocationValid(message: AroundMessage) : boolean {
         /*
         The valid range of latitude in degrees is -90 and +90 for the southern and northern hemisphere respectively. 
         Longitude is in the range -180 and +180 specifying coordinates west and east of the Prime Meridian, respectively.
         */
-        if(location.lat < -90 || location.lat > 90) {
+        if(message.location.lat < -90 || message.location.lat > 90) {            
             return false;
         }
-        if(location.lng < -180 || location.lat > 180) {
+        if(message.location.lng < -180 || message.location.lat > 180) {
             return false;
         }
         return true;
     }
 
-    private isMessageBodyValid(messageBody: string): boolean {
-        if(messageBody.length > 240) {
-            console.warn("message body length exceeds 240 character limit");
+    private isMessageBodyValid(message: AroundMessage): boolean {
+        if(message.messageBody.length > 240) {
+            console.warn(message, "message body length exceeds 240 character limit");
             return false;
         }
-        if(messageBody.length === 0) {
-            console.warn("message body length is zero");
+        if(message.messageBody.length === 0) {
+            console.warn(message, "message body length is zero");
             return false;
         }
         return true;

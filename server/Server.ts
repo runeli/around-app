@@ -51,6 +51,9 @@ export class AroundServer {
             console.log('Connected: %s', socket.id);
             socket.emit(INITIAL_AROUNDS, this.aroundMessageStore.get());
             socket.on(CLIENT_TO_SERVER_MESSAGE, (message: AroundMessage) => {
+                if(!this.aroundMessageStore.isMessageValid(message)) {                    
+                    return;
+                }
                 this.aroundMessageStore.add(message);
                 socket.broadcast.emit(SERVER_TO_CLIENT_MESSAGE, AroundMessage.fromJsonLike(message));
             });

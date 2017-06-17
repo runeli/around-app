@@ -24,4 +24,8 @@ export class AroundMessage implements IAroundMessage {
         aroundMessage.date = new Date(obj.date);
         return aroundMessage;
     }
+
+    public toString(): string {
+        return this.id.messageId;
+    }
 }
